@@ -6,6 +6,7 @@
 #include <QGraphicsView>
 #include <QTimer>
 #include "score.h"
+#include "health.h"
 
 class game : public QGraphicsView
 {
@@ -17,6 +18,7 @@ public:
     QGraphicsScene * scene;
     myplayer * player;
     score * scores;
+    health * healths;
 };
 
 #endif // GAME_H

@@ -1,6 +1,9 @@
 #include "bullets.h"
 #include <QObject>
 #include "enemy.h"
+#include "game.h"
+
+extern game * newgame;   // there is an external global pointer/object "newgame"
 
 bullets::bullets(int bx, int by)
 {
@@ -21,6 +24,8 @@ void bullets::movebullet()
     QList<QGraphicsItem *> colliding_bullet = collidingItems();
     for (int i = 0, n = colliding_bullet.size(); i < n; ++i){
         if (typeid(*(colliding_bullet[i])) == typeid(enemy)){
+            // incr score
+            newgame->scores->increasescore();   // note to self : use the declared object names
             //remove both, first the enemy then the bullet
             scene()->removeItem(colliding_bullet[i]);
             scene()->removeItem(this);

@@ -1,6 +1,8 @@
 #include "enemy.h"
 #include <QObject>
 #include "myplayer.h"
+#include "game.h"
+extern game * newgame;
 
 enemy::enemy(int x, int y, int ex, int ey)
 {
@@ -24,6 +26,7 @@ void enemy::moveEnemy()
     QList<QGraphicsItem *> colliding_toplayer = collidingItems();
     for (int i = 0, n = colliding_toplayer.size(); i < n; ++i){
         if (typeid(*(colliding_toplayer[i])) == typeid(myplayer)){
+            newgame->healths->decreasehealth();
             //remove enemy if collision
             scene()->removeItem(this);
             delete this;
@@ -31,6 +34,7 @@ void enemy::moveEnemy()
     }
     // check if enemy has room to move within view
     if(pos().y()+rect().height() > viewy){
+        newgame->healths->decreasehealth();
         scene()->removeItem(this);
         delete this;
         qDebug()<< " enemy deleted" ;
