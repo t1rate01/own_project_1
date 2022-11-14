@@ -31,6 +31,12 @@ void game::show()
     scores = new score;
     scene->addItem(scores);
 
+    // new health
+    healths = new health;
+    healths->setPos(healths->x(),healths->y()+25);
+    scene->addItem(healths);
+
+
     // add a view to "see" the concept of scene
     QGraphicsView * view = new QGraphicsView(scene);
     // disable scroll bar
