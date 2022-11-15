@@ -8,13 +8,13 @@ game::game()
 void game::show()
 {
     // these values should move all the way down the pipe in constructors
-    int windowx=800, windowy=600, rectx = 75, recty = 75, bulletx = 5, bullety = 25, enemyx = 50, enemyy = 50;
+    int windowx=800, windowy=600;
     // new scene
     QGraphicsScene * scene = new QGraphicsScene;
+    scene->setBackgroundBrush(QBrush(QImage(":/images/space.jpg")));
 
     // player to put in the scene
-    myplayer * player = new myplayer(windowx,windowy,bulletx,bullety,enemyx,enemyy);
-    player->setRect(0,0,rectx,recty);
+    myplayer * player = new myplayer(windowx,windowy);
 
 
     // put the player in to the scene
@@ -46,10 +46,33 @@ void game::show()
     view->show();
     view->setFixedSize(windowx,windowy);
     scene->setSceneRect(0,0,windowx,windowy);
-    player->setPos(view->width()/2-player->rect().width()/2,view->height() - player->rect().height());
+    player->setPos(view->width()/2-player->pixmap().width()/2,view->height()-player->pixmap().height());
 
     // enemy spawner
-    QTimer * enemyspawner = new QTimer;
+
     QObject::connect(enemyspawner,SIGNAL(timeout()),player,SLOT(spawn()));
     enemyspawner->start(2000);
+    // game timer / watching HP for game end
+    QObject::connect(gametime,SIGNAL(timeout()),this,SLOT(gametimer()));
+    gametime->start(1000);
+
+    // play backgroundmusic
+    backgroundmusic = new QMediaPlayer(this);
+    backgroundmusic->setMedia(QUrl("qrc:/sounds/backgroundtoon.wav"));
+    backgroundmusic->setVolume(7);
+    backgroundmusic->play();
+}
+
+void game::gameover()
+{
+    enemyspawner->stop();
+// ---------------------------------------- add game over -----------------------------------------------------------
+
+}
+
+void game::gametimer()
+{
+    if(healths->gethealth()==0){
+        gameover();
+    }
 }

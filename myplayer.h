@@ -2,24 +2,25 @@
 #define MYPLAYER_H
 #include <QDebug>
 #include <QKeyEvent>
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 #include <QObject>
 #include <QGraphicsScene>
 #include <QList>
+#include <QMediaPlayer>
 
 
 
-
-class myplayer : public QObject, public QGraphicsRectItem
+class myplayer : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    myplayer(int, int, int, int, int, int);
+    myplayer(int, int);
     void keyPressEvent(QKeyEvent * event);
-    int getwidth();
-    int viewx, viewy, bulletx, bullety, enemyx,enemyy;
+    int viewx, viewy;
 public slots:
     void spawn();
+private:
+    QMediaPlayer * bulletsound;
 
 };
 

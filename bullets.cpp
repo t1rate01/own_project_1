@@ -5,17 +5,23 @@
 
 extern game * newgame;   // there is an external global pointer/object "newgame"
 
-bullets::bullets(int bx, int by)
+bullets::bullets()
 {
-    int bulletx = bx;
-    int bullety = by;
-    // draw the bullet
-    setRect(0,0,bulletx,bullety);
+
+    // draw the bullet graphics
+    setPixmap(QPixmap(":/images/bullet.png"));
+    setTransformOriginPoint(18,18);
+    setRotation(270);
    // connect with timer
     QTimer * bullettimer = new QTimer();
     connect(bullettimer,SIGNAL(timeout()),this,SLOT(movebullet()));
 
     bullettimer->start(10);
+}
+
+bullets::~bullets()
+{
+qDebug()<<"Bullet destructor";
 }
 
 void bullets::movebullet()
@@ -35,13 +41,11 @@ void bullets::movebullet()
     }
 
     // check if bullet has room to move within scene window
-    if(pos().y()+rect().height() < 0){
+    if(pos().y() < 0){
         scene()->removeItem(this);
         delete this;
-        qDebug()<< " bullet deleted" ;
     }
     else
- qDebug()<< "moving the bullet";
     // move bullet
  setPos(x(),y()-2);
 }

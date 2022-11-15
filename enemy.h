@@ -1,7 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
 #include <QObject>
 #include <QTimer>
@@ -10,12 +10,13 @@
 
 
 
-class enemy : public QObject, public QGraphicsRectItem
+class enemy : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    enemy(int,int,int,int);
-    int enemyx, enemyy, viewx, viewy;
+    enemy(int,int);
+    ~enemy();
+    int viewx, viewy;
 public slots:
     void moveEnemy();
 };

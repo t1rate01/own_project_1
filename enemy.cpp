@@ -4,20 +4,23 @@
 #include "game.h"
 extern game * newgame;
 
-enemy::enemy(int x, int y, int ex, int ey)
+enemy::enemy(int x, int y)
 {
-    enemyx = ex;
-    enemyy = ey;
     viewx=x;
     viewy=y;
     //set random pos
-    setPos(rand()%viewx-(enemyx/2),0);
+    setPos(rand()%viewx-pixmap().width(),0);
 
- setRect(0,0,enemyx,enemyy);
+ setPixmap(QPixmap(":/images/ufo.png"));
  QTimer * enemytimer = new QTimer();
  connect(enemytimer,SIGNAL(timeout()),this,SLOT(moveEnemy()));
  enemytimer->start(25);
 
+}
+
+enemy::~enemy()
+{
+qDebug()<< "enemy destructor";
 }
 
 void enemy::moveEnemy()
@@ -33,11 +36,10 @@ void enemy::moveEnemy()
         }
     }
     // check if enemy has room to move within view
-    if(pos().y()+rect().height() > viewy){
+    if(pos().y() > viewy){
         newgame->healths->decreasehealth();
         scene()->removeItem(this);
-        delete this;
-        qDebug()<< " enemy deleted" ;
+        delete this;       
     }
     else
 setPos(x(),y()+1);

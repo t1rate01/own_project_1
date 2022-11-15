@@ -7,6 +7,9 @@
 #include <QTimer>
 #include "score.h"
 #include "health.h"
+#include <QMediaPlayer>
+#include <QImage>
+
 
 class game : public QGraphicsView
 {
@@ -14,11 +17,17 @@ class game : public QGraphicsView
 public:
     game();
     void show();
-    int windowx, windowy, rectx, recty, bulletx, bullety, enemyx, enemyy;
+    void gameover();
+    int windowx, windowy;
     QGraphicsScene * scene;
+    QTimer * enemyspawner = new QTimer;
+    QTimer * gametime = new QTimer;
+    QMediaPlayer * backgroundmusic;
     myplayer * player;
     score * scores;
     health * healths;
+public slots:
+    void gametimer();
 };
 
 #endif // GAME_H
